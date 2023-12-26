@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "S4sUtqmGIYwVT0OT6wrGOd/hUMGO7eZqDUwy5dPCUdk=",
+  "Source": "azure-test-api",
+  "BasePath": "_content/azure-test-api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
