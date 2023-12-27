@@ -1,0 +1,12 @@
+
+### install extension REST Client
+
+@url = http://localhost:5105
+
+### get version (click "Send Request" link below)
+get {{url}}/version
+
+### get the test roster
+get {{url}}/sqltests/roster/all
+
+###
