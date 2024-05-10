@@ -7,6 +7,6 @@
 get {{url}}/version
 
 ### get the test roster
-get {{url}}/sqltests/roster/all
+get {{url}}/sqltests/GetItems
 
 ###
