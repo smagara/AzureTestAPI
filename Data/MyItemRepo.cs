@@ -35,32 +35,24 @@ namespace azure_test_api.Data
         {
             var connectionString = "";
             var sql = @"select ItemNo, ItemName from [TestData]";
+            var isDev = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
 
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+
+            // connect from desktop or within azure cloud
+            connectionString = isDev ?
+                configuration.GetConnectionString("DevConnection") :
+                configuration.GetConnectionString("DefaultConnection");
+
+            using (var connection = new SqlConnection(connectionString))
             {
-                // connect from desktop
-                connectionString = configuration.GetConnectionString("DevConnection");
-
-                using (var connection = new SqlConnection(connectionString))
-                {
-                    return await connection.QueryAsync<MyItem>(sql);
-                }
-            }
-            else
-            {
-                // connection from within Azure
-                connectionString = configuration.GetConnectionString("DefaultConnection");
-
-                using (var connection = new SqlConnection(connectionString))
+                if (!isDev)
                 {
                     var credential = new ManagedIdentityCredential(azureClientId);
                     var token = await credential.GetTokenAsync(new Azure.Core.TokenRequestContext(new[] { azureSQLAuthURL }));
                     connection.AccessToken = token.Token;
-                    return await connection.QueryAsync<MyItem>(sql);
                 }
+                return await connection.QueryAsync<MyItem>(sql);
             }
-
         }
-
     }
 }
