@@ -54,7 +54,7 @@ namespace azure_test_api.Data
                 using (var connection = new SqlConnection(connectionString))
                 {
                     var credential = new ManagedIdentityCredential(azureClientId);
-                    var token = await credential.GetTokenAsync(new Azure.Core.TokenRequestContext(new[] { "https://database.windows.net/.default" }));
+                    var token = await credential.GetTokenAsync(new Azure.Core.TokenRequestContext(new[] { azureSQLAuthURL }));
                     connection.AccessToken = token.Token;
                     return await connection.QueryAsync<MyItem>(sql);
                 }
