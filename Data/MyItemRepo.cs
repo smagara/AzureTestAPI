@@ -15,7 +15,7 @@ namespace azure_test_api.Data
     {
 
         private readonly IConfiguration configuration;
-        
+
         public MyItemRepo(IConfiguration config)
         {
             configuration = config;
@@ -23,9 +23,21 @@ namespace azure_test_api.Data
 
         public async Task<IEnumerable<MyItem>> GetItems()
         {
+            var connectionString = "";
             var sql = @"select ItemNo, ItemName from [TestData]";
 
-            using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+            {
+                // connect from desktop
+                connectionString = configuration.GetConnectionString("DevConnection");
+            }
+            else
+            {
+                // connection from within Azure
+                connectionString = configuration.GetConnectionString("DefaultConnection");
+            }
+
+            using (var connection = new SqlConnection(connectionString))
             {
                 var credential = new ManagedIdentityCredential("5cae1e9c-aa36-4c89-963f-5930f751e41a");
                 var token = await credential.GetTokenAsync(new Azure.Core.TokenRequestContext(new[] { "https://database.windows.net/.default" }));
