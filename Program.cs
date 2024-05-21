@@ -26,7 +26,7 @@ app.UseHttpsRedirection();
 
 app.MapGet("/version", () =>
 {
-    return "2.0.11";
+    return "3.0.2";
 })
 .WithName("TestAPIVersion")
 .WithOpenApi();
