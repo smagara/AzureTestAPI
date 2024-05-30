@@ -40,5 +40,15 @@ SQLTesting.MapGet("GetItems", async (IMyItemRepo repoItems) =>
 });
 #endregion
 
+#region Celcius
+
+// Prompt: I need to write a Celcius to Fahrenheit conversion
+// Copilot provided the following, and made it a REST API endpoint by context.
+app.MapGet("/CelciusToFahrenheit", (double celcius) =>
+{
+    return Results.Ok((celcius * 9 / 5) + 32);
+});
+#endregion
+
 app.Run();
 
